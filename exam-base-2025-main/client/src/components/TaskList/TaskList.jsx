@@ -1,13 +1,15 @@
 import './TaskList.css'
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Task from './Task'
+import Paginator from '../Paginator/Paginator'
 import { getAllTasks } from '../../stores/actions/task-actions'
 // import Paginator from '../Paginator/Paginator'
 
 // selectors
 const taskDataSelector = state => state.task.data
+const taskCountSelector = state => state.task.count
 const userIdSelector = state => state.user.data.id
 
 const TaskList = () => {
@@ -16,7 +18,15 @@ const TaskList = () => {
   const params = useParams()
 
   const tasks = useSelector(taskDataSelector)
+  const totalRecords = useSelector(taskCountSelector)
   const userId = useSelector(userIdSelector)
+
+  const [pageNumber, setPageNumber] = useState(0)
+  const [pageSize, setPageSize] = useState(10)
+  const [filterField, setFilterField] = useState('')
+  const [filterValue, setFilterValue] = useState('')
+  const [sortField, setSortField] = useState('')
+  const [sortOrder, setSortOrder] = useState('')
 
   useEffect(() => {
     if (!userId || !params.pid) {
@@ -24,12 +34,19 @@ const TaskList = () => {
     }
 
     const loadTasks = async () => {
-      const action = await getAllTasks(userId, params.pid)
+      const action = await getAllTasks(userId, params.pid, {
+        pageNumber,
+        pageSize,
+        filterField,
+        filterValue,
+        sortField,
+        sortOrder
+      })
       dispatch(action)
     }
 
     loadTasks()
-  }, [dispatch, userId, params.pid])
+  }, [dispatch, userId, params.pid, pageNumber, pageSize, filterField, filterValue, sortField, sortOrder])
 
   return (
     <div className='task-list'>
@@ -38,10 +55,64 @@ const TaskList = () => {
         <thead>
           <tr>
             <th>
-              Name
+              <div>Name</div>
+              <input
+                type='text'
+                onChange={e => {
+                  setFilterValue(e.target.value)
+                  setFilterField('title')
+                }}
+                placeholder='name filter'
+              />
+              <button
+                onClick={() => {
+                  setSortField('title')
+                  setSortOrder('asc')
+                }}
+              >
+                ⌃
+              </button>
+              <button
+                onClick={() => {
+                  setSortField('title')
+                  setSortOrder('desc')
+                }}
+              >
+                ⌄
+              </button>
             </th>
             <th>
-              Description
+              <div>Description</div>
+              <input
+                type='text'
+                onChange={e => {
+                  setFilterValue(e.target.value)
+                  setFilterField('description')
+                }}
+                placeholder='name filter'
+              />
+              <button
+                onClick={() => {
+                  setSortField('description')
+                  setSortOrder('asc')
+                }}
+              >
+                ⌃
+              </button>
+              <button
+                onClick={() => {
+                  setSortField('description')
+                  setSortOrder('desc')
+                }}
+              >
+                ⌄
+              </button>
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Assigned to
             </th>
           </tr>
         </thead>
@@ -51,6 +122,11 @@ const TaskList = () => {
           ))}
         </tbody>
       </table>
+      <Paginator
+        onPageChange={pageNumber => setPageNumber(pageNumber)}
+        onPageSizeChange={pageSize => setPageSize(pageSize)}
+        totalRecords={totalRecords}
+      />
       <div className='footer'>
         <button onClick={() => navigate(`/projects/${params.pid}/tasks/new`)}>
           Create Task

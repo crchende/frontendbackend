@@ -1,6 +1,6 @@
 import './TaskDetails.css'
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
@@ -26,6 +26,10 @@ const TaskDetails = () => {
   const [partialEmailMatch, setPartialEmailMatch] = useState('')
   const [selectedUserId, setSelectedUserId] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('')
+
+  const navigate = useNavigate()
+  const location_info = useLocation()
+  const back_to_tasks_path = location_info.pathname.substring(0,location_info.pathname.lastIndexOf("/"))
 
   // load task details
   useEffect(() => {
@@ -78,7 +82,12 @@ const TaskDetails = () => {
   return (
     <div className='task-details'>
       <h1>Task Details</h1>
-
+      <div 
+        onClick={() => navigate(back_to_tasks_path)} 
+        style={{color:"blue", margin:"4px", cursor:"grab"}}
+      >
+        <u>Tasks</u>
+      </div>
       {canEditStatus && task && (
         <div className='status-editor'>
           <h2>Task status</h2>
@@ -102,6 +111,7 @@ const TaskDetails = () => {
       {canAllocate && task && (
         <div className='task-allocation'>
           <h2>Task allocation</h2>
+          <div>tasks</div>
           <div className='description'>{task.description}</div>
           <div className='controls'>
             <input

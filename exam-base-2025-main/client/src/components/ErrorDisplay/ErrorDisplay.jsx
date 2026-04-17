@@ -27,7 +27,10 @@ const ErrorDisplay = () => {
 
     if (error) {
       // make sure we display a string, not an object
-      const text = typeof error === 'string' ? error : 'An error occurred'
+      console.log("error.statusText:", error.statusText, error.message)
+      console.log("error:", error, error.message)
+      const err_msg = error.statusText ? error.statusText : error.message
+      const text = typeof err_msg === 'string' ? err_msg : 'An error occurred' //not sure if statusText or message covers all the cases
       setMessage(text)
     }
   }, [userError, projectError, taskError, userSuggestionError])

@@ -1,14 +1,33 @@
 import store from '../store'
 import { SERVER } from '../../config/global'
 
-export const getAllTasks = async (userId, projectId) => {
+export const getAllTasks = async (
+  userId, 
+  projectId,
+  {
+    pageNumber = '',
+    pageSize = '',
+    filterField = '',
+    filterValue = '',
+    sortField = '',
+    sortOrder = ''
+  } = {}
+) => {
   const token = store.getState().user.data.token
+
+  const url = `${SERVER}/api/users/${userId}/projects/${projectId}/tasks` +
+    `?pageSize=${pageSize || ''}` +
+    `&pageNumber=${pageNumber === '' ? 0 : pageNumber}` +
+    `&filterField=${filterField || ''}` +
+    `&filterValue=${filterValue || ''}` +
+    `&sortField=${sortField || ''}` +
+    `&sortOrder=${sortOrder || ''}`
 
   return {
     type: 'GET_ALL_TASKS',
     payload: async () => {
       const response = await fetch(
-        `${SERVER}/api/users/${userId}/projects/${projectId}/tasks`,
+        url,
         {
           headers: {
             authorization: token
