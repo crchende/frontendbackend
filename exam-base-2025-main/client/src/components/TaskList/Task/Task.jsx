@@ -79,6 +79,13 @@ const Task = ({ task }) => {
                       >
                         Details
                       </button>
+                      <button
+                        onClick={() => {
+                          navigate(`/projects/${params.pid}/tasks/${task.id}/taskcomments`)
+                        }}
+                      >
+                        Comentarii
+                      </button>
                     </td>
                   </>
                   )
@@ -96,6 +103,13 @@ const Task = ({ task }) => {
                   }}
                 >
                   Details
+                </button>
+                <button
+                    onClick={() => {
+                      navigate(`/projects/${params.pid}/tasks/${task.id}/taskcomments`)
+                    }}
+                  >
+                    Comentarii
                 </button>
               </td>
             </>

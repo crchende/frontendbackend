@@ -3,9 +3,12 @@ import project from './project-controller.mjs'
 import task from './task-controller.mjs'
 import user from './user-controller.mjs'
 
+import taskcomment from './taskcomment-controller.mjs'
+
 export default {
   auth,
   project,
   task,
-  user
+  user,
+  taskcomment
 }

@@ -7,12 +7,14 @@ const userErrorSelector = state => state.user.error
 const projectErrorSelector = state => state.project.error
 const taskErrorSelector = state => state.task?.error
 const userSuggestionErrorSelector = state => state.userSuggestion?.error
+const taskCommentErrorSelector = state => state.taskcomment?.error
 
 const ErrorDisplay = () => {
   const userError = useSelector(userErrorSelector)
   const projectError = useSelector(projectErrorSelector)
   const taskError = useSelector(taskErrorSelector)
   const userSuggestionError = useSelector(userSuggestionErrorSelector)
+  const taskCommentError = useSelector(taskCommentErrorSelector)
 
   const [message, setMessage] = useState('')
   const [isVisible, setIsVisible] = useState(false)
@@ -23,7 +25,8 @@ const ErrorDisplay = () => {
       userError ||
       projectError ||
       taskError ||
-      userSuggestionError
+      userSuggestionError ||
+      taskCommentError
 
     if (error) {
       // make sure we display a string, not an object
@@ -33,7 +36,7 @@ const ErrorDisplay = () => {
       const text = typeof err_msg === 'string' ? err_msg : 'An error occurred' //not sure if statusText or message covers all the cases
       setMessage(text)
     }
-  }, [userError, projectError, taskError, userSuggestionError])
+  }, [userError, projectError, taskError, userSuggestionError, taskCommentError])
 
   // auto-hide after 5s
   useEffect(() => {

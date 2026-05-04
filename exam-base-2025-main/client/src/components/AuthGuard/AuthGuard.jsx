@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 const AuthGuard = ({ children, isAuthenticated }) => {
   const location = useLocation()
-  console.log("location - cu useLocation():", location)
+  console.log("AuthGuard: location - cu useLocation():", location)
 
   if (!isAuthenticated) {
     // Redirect to login page and preserve the current location in state

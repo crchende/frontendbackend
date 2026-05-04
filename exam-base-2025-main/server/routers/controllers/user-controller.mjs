@@ -1,6 +1,18 @@
 import { Op } from 'sequelize'
 import models from '../../models/index.mjs'
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const count = await models.User.count()
+    const data = await models.User.findAll({
+      attributes: ['id', 'email', 'createdAt']
+    })
+    res.status(200).json({count, data})
+  } catch(err) {
+    next(err)
+  }
+}
+
 const getUserProfile = async (req, res, next) => {
   try {
     const user = await models.User.findByPk(req.params.uid)
@@ -32,6 +44,7 @@ const suggestUser = async (req, res, next) => {
 }
 
 export default {
+  getAllUsers,
   getUserProfile,
   suggestUser
 }

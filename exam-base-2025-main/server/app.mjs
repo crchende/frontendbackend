@@ -5,8 +5,9 @@ import cors from 'cors'
 
 const app = express()
 
+//origin: process.env.FRONTEND_ORIGIN || 'http://localhost:5175' || 'http://127.0.0.1:5175',
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || 'http://127.0.0.1:5175',
+  origin: ['http://localhost:5175', 'http://127.0.0.1:5175'],
   optionsSuccessStatus: 200
 }
 

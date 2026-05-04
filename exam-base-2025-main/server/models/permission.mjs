@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM('task', 'project', 'task_commeent'),
+      type: DataTypes.ENUM('task', 'project', 'taskcomment'),
       allowNull: false
     },
     rights: {

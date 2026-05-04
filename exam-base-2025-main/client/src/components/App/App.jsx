@@ -13,7 +13,8 @@ import TaskDetails from '../TaskDetails'
 import Dashboard from '../Dashboard'
 import ErrorDisplay from '../ErrorDisplay'
 
-import TaskCommentList from '../TaskCommentList/TaskComment/TaskComment'
+import TaskCommentList from '../TaskCommentList'
+import TaskCommentForm from '../TaskCommentForm'
 
 import { logout } from '../../stores/actions/user-actions'
 
@@ -24,7 +25,7 @@ const userDataSelector = state => state.user.data
 const App = () => {
   const dispatch = useDispatch()
   const userData = useSelector(userDataSelector)
-  console.log("userData:", userData)
+  console.log("App: userData:", userData)
 
   const isAuthenticated = !!userData.token
 
@@ -52,8 +53,9 @@ const App = () => {
 
       <Router>
         {isAuthenticated && <nav>
-            <ul style={{listStyle:"none"}}>
-              <li><Link to="/projects">Projects</Link></li>
+            <ul style={{listStyle:"none", display:"flex"}}>
+              <li style={{padding:"4px"}}><Link to="/projects">Projects</Link></li>
+              {userData.type === "admin" && <li style={{padding:"4px"}}><Link to="/">Dashboard</Link></li>}
             </ul>
           </nav>
         }
@@ -117,6 +119,15 @@ const App = () => {
             element={
               <AuthGuard isAuthenticated={isAuthenticated}>
                 <TaskCommentList />
+              </AuthGuard>
+            }
+          />
+
+          <Route
+            path='/projects/:pid/tasks/:tid/taskcomments/new'
+            element={
+              <AuthGuard isAuthenticated={isAuthenticated}>
+                <TaskCommentForm />
               </AuthGuard>
             }
           />

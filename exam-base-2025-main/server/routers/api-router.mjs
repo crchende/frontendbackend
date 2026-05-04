@@ -21,6 +21,17 @@ apiRouter.delete('/users/:uid/projects/:pid/tasks/:tid', middleware.getPermMiddl
 apiRouter.post('/users/:uid/projects/:pid/tasks/:tid/assignments', middleware.getPermMiddleware('pid', ['write']), controllers.task.assignTaskToUser)
 apiRouter.put('/users/:uid/projects/:pid/tasks/:tid/status', middleware.assignedTaskMiddleware, controllers.task.updateAssignedTaskStatus)
 
+// taskcomment endpoints
+apiRouter.get('/users/:uid/projects/:pid/tasks/:tid/taskcomments', controllers.taskcomment.getAllTaskComments)
+apiRouter.post('/users/:uid/projects/:pid/tasks/:tid/taskcomments', controllers.taskcomment.createOwnedTaskComment)
+apiRouter.put('/users/:uid/projects/:pid/tasks/:tid/taskcomments/:tcid', controllers.taskcomment.updateOwnedTaskComment)
+apiRouter.delete('/users/:uid/projects/:pid/tasks/:tid/taskcomments/:tcid', controllers.taskcomment.deleteOwnedTaskComment)
+//middleware.getPermMiddleware('pid', ['write'])
+
+// dashboard endpoints
+apiRouter.get('/users/:uid/users', controllers.user.getAllUsers)
+
+
 // get user profile
 apiRouter.get('/users/:uid/profile', controllers.user.getUserProfile)
 

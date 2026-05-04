@@ -5,6 +5,7 @@
   right: 0;
   background-color: var(--error-color);
   color: var(--alternate-text-color);
+  min-height: 3em;
   /*height: 3em;*/
   width: 10em;
   opacity: 0.7;
